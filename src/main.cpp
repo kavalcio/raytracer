@@ -7,6 +7,7 @@
 color sky_color = color(0.5, 0.7, 1.0);
 color ground_color = color(1.0, 1.0, 1.0);
 
+// Derived from the equation for a sphere, this function determines if a ray intersects a sphere
 bool hit_sphere(const point3& center, double radius, const ray& r) {
   vec3 oc = center - r.origin();
   auto a = dot(r.direction(), r.direction());
