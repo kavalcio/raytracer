@@ -3,33 +3,16 @@
 #include "vec3.h"
 #include "color.h"
 #include "ray.h"
+#include "sphere.h"
 
 color sky_color = color(0.5, 0.7, 1.0);
 color ground_color = color(1.0, 1.0, 1.0);
 
-/*
-  Derived from the equation for a sphere and the quadratic formula,
-  this function determines if a ray intersects a sphere.
-*/
-double hit_sphere(const point3& center, double radius, const ray& r) {
-  vec3 oc = center - r.origin();
-  auto a = r.direction().length_squared();
-  auto h = dot(r.direction(), oc);
-  auto c = oc.length_squared() - radius * radius;
-  auto discriminant = h * h - a * c;
-  if (discriminant < 0) {
-    return -1.0;
-  }
-  return (h - std::sqrt(discriminant)) / a;
-}
-
 color ray_color(const ray& r) {
-  double radius = 0.5;
-  point3 center = point3(0, 0, -1);
-  double t = hit_sphere(center, radius, r);
-  if (t > 0.0) {
-    vec3 normal = (r.at(t) - center) / radius;
-    return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+  sphere sphere_1 = sphere(point3(0, 0, -1), 0.5);
+  hit_record rec;
+  if (sphere_1.hit(r, 0, 1000, rec)) {
+    return 0.5 * (rec.normal + color(1, 1, 1));
   }
 
   vec3 unit_direction = normalize(r.direction());
