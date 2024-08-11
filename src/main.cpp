@@ -1,8 +1,4 @@
-#include <iostream>
-
-#include "vec3.h"
-#include "color.h"
-#include "ray.h"
+#include "main.h"
 #include "sphere.h"
 
 color sky_color = color(0.5, 0.7, 1.0);
