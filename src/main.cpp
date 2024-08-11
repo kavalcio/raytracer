@@ -1,13 +1,13 @@
 #include "main.h"
 #include "sphere.h"
+#include "hittable_list.h"
 
 color sky_color = color(0.5, 0.7, 1.0);
 color ground_color = color(1.0, 1.0, 1.0);
 
-color ray_color(const ray& r) {
-  sphere sphere_1 = sphere(point3(0, 0, -1), 0.5);
+color ray_color(const ray& r, const hittable& world) {
   hit_record rec;
-  if (sphere_1.hit(r, 0, 1000, rec)) {
+  if (world.hit(r, 0, infinity, rec)) {
     return 0.5 * (rec.normal + color(1, 1, 1));
   }
 
@@ -27,6 +27,12 @@ int main() {
   int image_height = int(image_width / aspect_ratio);
   image_height = (image_height < 1) ? 1 : image_height;
 
+  // World
+  hittable_list world;
+
+  world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+  world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
+
   // Camera
 
   double focal_length = 1.0;
@@ -44,7 +50,7 @@ int main() {
 
   // Calculate the location of the upper left pixel.
   vec3 viewport_upper_left = camera_center
-                            - vec3(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
+    - vec3(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
   vec3 pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 
   // Render
@@ -58,9 +64,8 @@ int main() {
       auto ray_direction = pixel_center - camera_center;
       ray r(camera_center, ray_direction);
 
-      color pixel_color = ray_color(r);
+      color pixel_color = ray_color(r, world);
 
-      // color pixel_color = color(double(i) / (image_width-1), double(j) / (image_height-1), 0.0);
       write_color(std::cout, pixel_color);
     }
   }
