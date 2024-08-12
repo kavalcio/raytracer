@@ -76,7 +76,7 @@ class camera {
       // Construct a camera ray originating from the origin and directed at randomly sampled
       // point around the pixel location i, j.
 
-      auto offset = sample_square();
+      auto offset = sample_disk();
       auto pixel_sample = pixel00_loc
         + ((i + offset.x()) * pixel_delta_u)
         + ((j + offset.y()) * pixel_delta_v);
@@ -90,6 +90,16 @@ class camera {
     vec3 sample_square() const {
       // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
       return vec3(random_double() - 0.5, random_double() - 0.5, 0);
+    }
+
+    vec3 sample_disk() const {
+      // Returns the vector to a random point in the unit disk.
+      // Believe it or not, this is a more efficient way to generate a random point in the unit disk than using polar coordinates.
+      while (true) {
+        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.length_squared() >= 1) continue;
+        return p;
+      }
     }
 
     color ray_color(const ray& r, const hittable& world) const {
