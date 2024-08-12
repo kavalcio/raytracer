@@ -6,6 +6,7 @@
 color sky_color = color(0.5, 0.7, 1.0);
 color ground_color = color(1.0, 1.0, 1.0);
 
+// TODO: add specular reflection
 int main() {
   // World
 
