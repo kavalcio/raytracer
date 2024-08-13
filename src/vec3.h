@@ -116,6 +116,15 @@ inline vec3 normalize(const vec3& v) {
   return unit_vector(v);
 }
 
+inline vec3 random_in_unit_disk() {
+  // Believe it or not, this is a more efficient way to generate a random point in the unit disk than using polar coordinates.
+  while (true) {
+    auto p = vec3(random_double(-1,1), random_double(-1,1), 0);
+    if (p.length_squared() >= 1) continue;
+    return p;
+  }
+}
+
 inline vec3 random_in_unit_sphere() {
   while (true) {
     auto p = vec3::random(-1,1);
