@@ -10,3 +10,5 @@ $ cmake --build build/Release
 $ cmake -B build/Debug -DCMAKE_BUILD_TYPE=Debug
 $ cmake --build build/Debug
 ```
+
+Based on [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html).

@@ -47,7 +47,7 @@ class camera {
   private:
     int image_height;
 
-    color sky_color = color(0.5, 0.7, 1.0);
+    color sky_color = color(0.3, 0.5, 1.0);
     color ground_color = color(1.0, 1.0, 1.0);
 
     point3 camera_center;
@@ -60,9 +60,10 @@ class camera {
     vec3 defocus_disk_v; // Defocus disk vertical radius
 
     void initialize() {
-      camera_center = lookfrom;
       image_height = int(image_width / aspect_ratio);
       image_height = (image_height < 1) ? 1 : image_height;
+
+      camera_center = lookfrom;
 
       // Determine viewport dimensions.
       auto theta = degrees_to_radians(vfov);
@@ -102,7 +103,7 @@ class camera {
         + ((i + offset.x()) * pixel_delta_u)
         + ((j + offset.y()) * pixel_delta_v);
 
-      auto ray_origin = camera_center + defocus_disk_sample();
+      auto ray_origin = (defocus_angle <= 0) ? camera_center : defocus_disk_sample();
       auto ray_direction = pixel_sample - ray_origin;
 
       return ray(ray_origin, ray_direction);
