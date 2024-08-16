@@ -6,7 +6,7 @@
 color sky_color = color(0.5, 0.7, 1.0);
 color ground_color = color(1.0, 1.0, 1.0);
 
-// TODO: update readme, acknowledgements, build instructions
+// TODO: add runtime params for resolution and samples per pixel
 // TODO: add geometries other than sphere
 // TODO: add bounding boxes for collision detection?
 // TODO: add specular reflection
@@ -63,8 +63,8 @@ int main() {
   camera cam;
 
   cam.aspect_ratio      = 16.0 / 9.0;
-  cam.image_width       = 600;
-  cam.samples_per_pixel = 50;
+  cam.image_width       = 1200;
+  cam.samples_per_pixel = 100;
   cam.max_depth         = 50;
 
   cam.vfov     = 25;
