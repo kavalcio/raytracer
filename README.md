@@ -1,5 +1,5 @@
 # Ray Tracer
-![cover image](https://github.com/kavalcio/raytracing/cover.jpg?raw=true)
+![cover image](https://github.com/kavalcio/raytracer/blob/main/cover.jpg?raw=true)
 
 A minimal ray tracing renderer, written in C++.
 
