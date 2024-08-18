@@ -1,4 +1,5 @@
 #include "main.h"
+#include "bvh.h"
 #include "sphere.h"
 #include "hittable_list.h"
 #include "camera.h"
@@ -8,7 +9,6 @@ color ground_color = color(1.0, 1.0, 1.0);
 
 // TODO: add runtime params for resolution and samples per pixel
 // TODO: add geometries other than sphere
-// TODO: add bounding boxes for collision detection?
 // TODO: add specular reflection
 // TODO: add fresnel reflection
 // TODO: add beer's law
@@ -58,6 +58,8 @@ int main() {
 
   auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
   world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
+
+  world = hittable_list(make_shared<bvh_node>(world));
 
   // Camera
 

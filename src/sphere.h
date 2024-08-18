@@ -8,11 +8,20 @@ class sphere : public hittable {
   public:
     // Stationary sphere
     sphere(const point3& center, double radius, shared_ptr<material> mat)
-      : center(center), radius(std::fmax(0,radius)), mat(mat), is_moving(false) {}
+      : center(center), radius(std::fmax(0,radius)), mat(mat), is_moving(false) {
+        vec3 r_vec = vec3(radius, radius, radius);
+        bbox = aabb(center - r_vec, center + r_vec);
+      }
 
     // Moving sphere
     sphere(const point3& center, double radius, shared_ptr<material> mat, const vec3& velocity)
-      : center(center), radius(std::fmax(0,radius)), mat(mat), is_moving(true), velocity(velocity) {}
+      : center(center), radius(std::fmax(0,radius)), mat(mat), is_moving(true), velocity(velocity) {
+        vec3 r_vec = vec3(radius, radius, radius);
+        vec3 center2 = center + velocity;
+        aabb box1 = aabb(center - r_vec, center + r_vec);
+        aabb box2 = aabb(center2 - r_vec, center2 + r_vec);
+        bbox = aabb(box1, box2);
+      }
 
     /*
       Derived from the equation for a sphere and the quadratic formula,
@@ -48,12 +57,15 @@ class sphere : public hittable {
       return true;
     }
 
+    aabb bounding_box() const override { return bbox; }
+
   private:
     point3 center;
     double radius;
     shared_ptr<material> mat;
     vec3 velocity;
     bool is_moving;
+    aabb bbox;
 
     point3 sphere_center(double time) const {
       // Linearly interpolate from center to center + velocity according to time
