@@ -22,14 +22,18 @@ class bvh_node : public hittable {
 
     bvh_node(std::vector<shared_ptr<hittable>>& objects, size_t start, size_t end) {
       // Current process for building a BVH from a list of primitives:
-      // 1. randomly choose an axis
-      // 2. sort the primitives
-      // 3. put half in each subtree
+      // 1. build a bounding box for the span of source objects
+      // 2. find the longest axis of the bounding box
+      // 3. sort the objects by their bounding box positions on that axis
+      // 4. split the list in half and recursively build the subtrees
 
-      int axis = random_int(0,2);
+      // Build the bounding box that contains all objects in the list.
+      bbox = aabb::empty;
+      for (size_t object_index=start; object_index < end; object_index++)
+        bbox = aabb(bbox, objects[object_index]->bounding_box());
 
+      int axis = bbox.longest_axis();
       auto comparator = (axis == 0) ? box_x_compare : (axis == 1) ? box_y_compare : box_z_compare;
-
       size_t object_span = end - start;
 
       if (object_span == 1) {
@@ -48,8 +52,6 @@ class bvh_node : public hittable {
         left = make_shared<bvh_node>(objects, start, mid);
         right = make_shared<bvh_node>(objects, mid, end);
       }
-
-      bbox = aabb(left->bounding_box(), right->bounding_box());
     }
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
