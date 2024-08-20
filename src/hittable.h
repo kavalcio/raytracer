@@ -8,11 +8,13 @@ class material;
 
 class hit_record {
   public:
-    point3 p;
-    vec3 normal;
-    shared_ptr<material> mat;
-    double t;
-    bool front_face;
+    point3 p; // World coordinates of the hit point.
+    vec3 normal; // Normal vector of the object surface at the hit point.
+    shared_ptr<material> mat; // Material of the object.
+    double t; // Ray parameter at the hit point.
+    bool front_face; // True if the ray hits the front face of the object.
+    double u; // Texture coordinate u.
+    double v; // Texture coordinate v.
 
     void set_face_normal(const ray& r, const vec3& outward_normal) {
       // Sets the hit record normal vector.
