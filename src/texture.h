@@ -33,11 +33,10 @@ class checker_texture : public texture {
       : checker_texture(scale, make_shared<solid_color>(c1), make_shared<solid_color>(c2)) {}
 
     color value(double u, double v, const point3& p) const override {
-      auto xInteger = int(std::floor(inv_scale * p.x()));
-      auto yInteger = int(std::floor(inv_scale * p.y()));
-      auto zInteger = int(std::floor(inv_scale * p.z()));
+      auto uInteger = int(std::floor(u * inv_scale));
+      auto vInteger = int(std::floor(v * inv_scale));
 
-      bool isEven = (xInteger + yInteger + zInteger) % 2 == 0;
+      bool isEven = (uInteger + vInteger) % 2 == 0;
 
       return isEven ? even->value(u, v, p) : odd->value(u, v, p);
     }

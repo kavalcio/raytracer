@@ -48,8 +48,6 @@ void bouncing_spheres() {
 
   world = hittable_list(make_shared<bvh_node>(world));
 
-  // Camera
-
   camera cam;
 
   cam.aspect_ratio      = 16.0 / 9.0;
