@@ -8,6 +8,7 @@
 #include "scenes/part_1_final_scene.h"
 #include "scenes/bouncing_spheres.h"
 #include "scenes/checkered_spheres.h"
+#include "scenes/earth.h"
 
 // TODO: in release and debug scripts, abort if the build fails
 // TODO: add runtime params for resolution and samples per pixel
@@ -17,5 +18,5 @@
 // TODO: add beer's law
 // https://blog.demofox.org/2017/01/09/raytracing-reflection-refraction-fresnel-total-internal-reflection-and-beers-law/
 int main() {
-  checkered_spheres();
+  earth();
 }
