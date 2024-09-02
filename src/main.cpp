@@ -1,8 +1,8 @@
 #include "main.h"
 #include "bvh.h"
-#include "sphere.h"
-#include "quad.h"
-#include "triangle.h"
+#include "primitives/sphere.h"
+#include "primitives/quad.h"
+#include "primitives/triangle.h"
 #include "hittable_list.h"
 #include "camera.h"
 
@@ -22,6 +22,5 @@
 // TODO: add beer's law
 // https://blog.demofox.org/2017/01/09/raytracing-reflection-refraction-fresnel-total-internal-reflection-and-beers-law/
 int main() {
-  // earth();
   quads_scene();
 }

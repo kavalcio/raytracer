@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-#include "hittable.h"
+#include "primitives/hittable.h"
 #include "material.h"
 
 class camera {

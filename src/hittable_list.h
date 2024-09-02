@@ -1,7 +1,7 @@
 #ifndef HITTABLE_LIST
 #define HITTABLE_LIST
 
-#include "hittable.h"
+#include "primitives/hittable.h"
 
 #include <vector>
 

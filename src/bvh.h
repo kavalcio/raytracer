@@ -5,7 +5,7 @@
 
 #include "main.h"
 #include "aabb.h"
-#include "hittable.h"
+#include "primitives/hittable.h"
 #include "hittable_list.h"
 
 // BVH: Bounding Volume Hierarchy
