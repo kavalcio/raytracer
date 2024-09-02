@@ -52,7 +52,7 @@ class quad : public hittable {
       auto alpha = dot(w, cross(plane_intersection_vector, v));
       auto beta = dot(w, cross(u, plane_intersection_vector));
 
-      if (!is_interior(alpha, beta, rec)) return false;
+      if (!is_intersection_in_bounds(alpha, beta, rec)) return false;
 
       // Ray hits the 2D shape; set the rest of the hit record and return true.
       rec.t = t;
@@ -63,7 +63,7 @@ class quad : public hittable {
       return true;
     }
 
-    virtual bool is_interior(double a, double b, hit_record& rec) const {
+    virtual bool is_intersection_in_bounds(double a, double b, hit_record& rec) const {
       interval unit_interval = interval(0, 1);
       // Given the hit point in plane coordinates, return false if it is outside the
       // primitive, otherwise set the hit record UV coordinates and return true.

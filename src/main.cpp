@@ -2,6 +2,7 @@
 #include "bvh.h"
 #include "sphere.h"
 #include "quad.h"
+#include "triangle.h"
 #include "hittable_list.h"
 #include "camera.h"
 
