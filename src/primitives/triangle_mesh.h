@@ -11,10 +11,11 @@
 #include <fstream>
 
 class triangle_mesh {
+  // TODO: add mesh-wide rotation and scale values (or use a transformation matrix)
   public:
     hittable_list mesh;
 
-    triangle_mesh(const char* image_filename) {
+    triangle_mesh(const char* image_filename, const point3& center, shared_ptr<material> mat) : center(center) {
       auto filename = std::string(image_filename);
       
       tinyobj::ObjReaderConfig reader_config;
@@ -33,9 +34,6 @@ class triangle_mesh {
       auto& attrib = reader.GetAttrib();
       auto& shapes = reader.GetShapes();
 
-      auto albedo = color::random() * color::random();
-      shared_ptr<material> mat = make_shared<lambertian>(albedo);
-
       // Loop over shapes
       for (size_t s = 0; s < shapes.size(); s++) {
         // Loop over faces
@@ -49,7 +47,7 @@ class triangle_mesh {
             tinyobj::real_t vx = attrib.vertices[3*size_t(idx.vertex_index)+0];
             tinyobj::real_t vy = attrib.vertices[3*size_t(idx.vertex_index)+1];
             tinyobj::real_t vz = attrib.vertices[3*size_t(idx.vertex_index)+2];
-            face_vertices.push_back(vec3(vx, vy, vz));
+            face_vertices.push_back(vec3(vx, vy, vz) + center);
           }
           index_offset += fv;
 
@@ -65,6 +63,10 @@ class triangle_mesh {
       // Convert the list of triangles into a BVH
       mesh = hittable_list(make_shared<bvh_node>(mesh));
     }
+  
+  private:
+    point3 center;
+
 };
 
 #endif
