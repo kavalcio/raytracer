@@ -1,9 +1,9 @@
 #include "main.h"
 #include "bvh.h"
+#include "hittable_list.h"
 #include "primitives/sphere.h"
 #include "primitives/quad.h"
 #include "primitives/triangle.h"
-#include "hittable_list.h"
 #include "camera.h"
 #include "primitives/triangle_mesh.h"
 
@@ -14,6 +14,7 @@
 #include "scenes/earth.h"
 #include "scenes/quads_scene.h"
 #include "scenes/teapot_scene.h"
+#include "scenes/cornell_box_scene.h"
 
 // TODO: add ability to output to something other than ppm file
 // TODO: add class descriptions to each .h file
@@ -23,5 +24,5 @@
 // TODO: add beer's law
 // https://blog.demofox.org/2017/01/09/raytracing-reflection-refraction-fresnel-total-internal-reflection-and-beers-law/
 int main() {
-  teapot_scene();
+  cornell_box_scene();
 }

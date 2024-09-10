@@ -2,6 +2,7 @@
 #define QUAD_H
 
 #include "hittable.h"
+#include "../hittable_list.h"
 
 // TODO: add velocity + motion blur to quads
 class quad : public hittable {
@@ -85,5 +86,25 @@ class quad : public hittable {
     vec3 plane_normal;
     double D;
 };
+
+inline shared_ptr<hittable_list> box(const point3& a, const point3& b, shared_ptr<material> mat) {
+  shared_ptr<hittable_list> sides = make_shared<hittable_list>();
+
+  point3 min = point3(std::fmin(a.x(), b.x()), std::fmin(a.y(), b.y()), std::fmin(a.z(), b.z()));
+  point3 max = point3(std::fmax(a.x(), b.x()), std::fmax(a.y(), b.y()), std::fmax(a.z(), b.z()));
+
+  vec3 dx = vec3(max.x() - min.x(), 0, 0);
+  vec3 dy = vec3(0, max.y() - min.y(), 0);
+  vec3 dz = vec3(0, 0, max.z() - min.z());
+
+  sides->add(make_shared<quad>(min, dx, dy, mat));
+  sides->add(make_shared<quad>(min, dx, dz, mat));
+  sides->add(make_shared<quad>(min, dy, dz, mat));
+  sides->add(make_shared<quad>(max, -dx, -dy, mat));
+  sides->add(make_shared<quad>(max, -dx, -dz, mat));
+  sides->add(make_shared<quad>(max, -dy, -dz, mat));
+
+  return sides;
+}
 
 #endif
