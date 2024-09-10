@@ -66,7 +66,6 @@ class triangle_mesh {
   
   private:
     point3 center;
-
 };
 
 #endif

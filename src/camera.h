@@ -14,6 +14,8 @@ class camera {
     int max_depth = 10; // Maximum number of ray bounces into scene
     float max_intersection_dist = infinity;
     float min_intersection_dist = 0.001; // This is a small value to prevent shadow acne
+    color sky_color = color(0.3, 0.5, 1.0);
+    color ground_color = color(1.0, 1.0, 1.0);
 
     double vfov = 90; // Vertical view angle (field of view)
     point3 lookfrom = point3(0,0,0); // Point camera is looking from
@@ -46,9 +48,6 @@ class camera {
 
   private:
     int image_height;
-
-    color sky_color = color(0.3, 0.5, 1.0);
-    color ground_color = color(1.0, 1.0, 1.0);
 
     point3 camera_center;
     point3 pixel00_loc;
@@ -131,18 +130,24 @@ class camera {
       if (depth <= 0) return color(0,0,0);
 
       hit_record rec;
-      if (world.hit(r, interval(min_intersection_dist, max_intersection_dist), rec)) {
-        ray scattered;
-        color attenuation;
-        if (rec.mat->scatter(r, rec, attenuation, scattered))
-          return attenuation * ray_color(scattered, depth - 1, world);
-
-        return color(0,0,0);
+      
+      // If the ray hits nothing, return the background color.
+      if (!world.hit(r, interval(min_intersection_dist, max_intersection_dist), rec)) {
+        vec3 unit_direction = normalize(r.direction());
+        auto a = 0.5 * (unit_direction.y() + 1.0);
+        return (1.0 - a) * ground_color + a * sky_color;
       }
 
-      vec3 unit_direction = normalize(r.direction());
-      auto a = 0.5 * (unit_direction.y() + 1.0);
-      return (1.0 - a) * ground_color + a * sky_color;
+      ray scattered_ray;
+      color attenuation_color;
+      color color_from_emission = rec.mat->emitted(rec.u, rec.v, rec.p);
+
+      if (!rec.mat->scatter(r, rec, attenuation_color, scattered_ray))
+        return color_from_emission;
+
+      color color_from_scatter = attenuation_color * ray_color(scattered_ray, depth - 1, world);
+
+      return color_from_emission + color_from_scatter;
     }
 };
 

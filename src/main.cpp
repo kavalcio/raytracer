@@ -15,6 +15,7 @@
 #include "scenes/quads_scene.h"
 #include "scenes/teapot_scene.h"
 
+// TODO: add ability to output to something other than ppm file
 // TODO: add class descriptions to each .h file
 // TODO: add runtime params for resolution, samples per pixel, scene number
 // TODO: add specular reflection
