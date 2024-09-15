@@ -14,7 +14,7 @@ class perlin {
         perm_x[i] = i;
         perm_y[i] = i;
         perm_z[i] = i;
-        randvec[i] = random_in_unit_disk();
+        randvec[i] = random_unit_vector();
       }
 
       permute();
@@ -86,4 +86,4 @@ class perlin {
     }
 };
 
-#endif PERLIN_H
+#endif
