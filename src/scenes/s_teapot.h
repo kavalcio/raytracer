@@ -1,7 +1,7 @@
-#ifndef TEAPOT_SCENE_H
-#define TEAPOT_SCENE_H
+#ifndef S_TEAPOT_H
+#define S_TEAPOT_H
 
-void teapot_scene() {
+void s_teapot() {
   hittable_list world;
 
   auto teapot_material = make_shared<lambertian>(color(.9, .2, .3));

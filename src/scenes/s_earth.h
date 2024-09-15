@@ -1,7 +1,7 @@
-#ifndef EARTH_H
-#define EARTH_H
+#ifndef S_EARTH_H
+#define S_EARTH_H
 
-void earth() {
+void s_earth() {
   hittable_list world;
 
   auto earth_texture = make_shared<image_texture>("earthmap.jpg");

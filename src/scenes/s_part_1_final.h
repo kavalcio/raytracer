@@ -1,11 +1,10 @@
-#ifndef BOUNCING_SPHERES
-#define BOUNCING_SPHERES
+#ifndef S_PART_1_FINAL_H
+#define S_PART_1_FINAL_H
 
-void bouncing_spheres() {
+void s_part_1_final() {
   hittable_list world;
 
-  auto checker = make_shared<checker_texture>(0.32, color(.2, .3, .1), color(.9, .9, .9));
-  auto ground_material = make_shared<lambertian>(checker);
+  auto ground_material = make_shared<lambertian>(color(.9, .9, .9));
   world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
 
   for (int a = -11; a < 11; a++) {
@@ -20,8 +19,7 @@ void bouncing_spheres() {
           // diffuse
           auto albedo = color::random() * color::random();
           sphere_material = make_shared<lambertian>(albedo);
-          vec3 velocity = vec3(0, random_double(0, 0.5), 0);
-          world.add(make_shared<sphere>(center, 0.2, sphere_material, velocity));
+          world.add(make_shared<sphere>(center, 0.2, sphere_material));
         } else if (choose_mat < 0.95) {
           // metal
           auto albedo = color::random(0.5, 1);

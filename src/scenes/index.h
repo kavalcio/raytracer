@@ -1,0 +1,8 @@
+#include "s_part_1_final.h"
+#include "s_bouncing_spheres.h"
+#include "s_checkered_spheres.h"
+#include "s_earth.h"
+#include "s_quads.h"
+#include "s_teapot.h"
+#include "s_cornell_box.h"
+#include "s_perlin_spheres.h"

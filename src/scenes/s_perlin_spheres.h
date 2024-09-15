@@ -1,7 +1,7 @@
-#ifndef PERLIN_SPHERES_H
-#define PERLIN_SPHERES_H
+#ifndef S_PERLIN_SPHERES_H
+#define S_PERLIN_SPHERES_H
 
-void perlin_spheres() {
+void s_perlin_spheres() {
   hittable_list world;
 
   auto marble_tex = make_shared<marble_texture>(2, 15);

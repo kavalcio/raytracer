@@ -1,7 +1,7 @@
-#ifndef CORNELL_BOX_SCENE_H
-#define CORNELL_BOX_SCENE_H
+#ifndef S_CORNELL_BOX_H
+#define S_CORNELL_BOX_H
 
-void cornell_box_scene() {
+void s_cornell_box() {
   hittable_list world;
 
   auto red   = make_shared<lambertian>(color(.65, .05, .05));

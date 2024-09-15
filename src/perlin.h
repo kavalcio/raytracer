@@ -5,7 +5,6 @@
 
 #include <vector>
 
-// TODO: add octaves
 class perlin {
   public:
     perlin() {

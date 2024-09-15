@@ -1,7 +1,7 @@
-#ifndef CHECKERED_SPHERES_H
-#define CHECKERED_SPHERES_H
+#ifndef S_CHECKERED_SPHERES_H
+#define S_CHECKERED_SPHERES_H
 
-void checkered_spheres() {
+void s_checkered_spheres() {
   hittable_list world;
 
   auto checker = make_shared<checker_texture>(0.03, color(.8, .3, .1), color(.9, .9, .9));

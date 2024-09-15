@@ -1,7 +1,7 @@
-#ifndef QUADS_SCENE_H
-#define QUADS_SCENE_H
+#ifndef S_QUADS_H
+#define S_QUADS_H
 
-void quads_scene() {
+void s_quads() {
   hittable_list world;
 
   // Materials
