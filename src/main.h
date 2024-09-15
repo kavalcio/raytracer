@@ -44,4 +44,13 @@ inline int random_int(int min, int max) {
 #include "ray.h"
 #include "color.h"
 
+#include "bvh.h"
+#include "perlin.h"
+#include "camera.h"
+#include "hittable_list.h"
+#include "primitives/sphere.h"
+#include "primitives/quad.h"
+#include "primitives/triangle.h"
+#include "primitives/triangle_mesh.h"
+
 #endif

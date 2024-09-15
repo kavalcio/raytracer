@@ -1,12 +1,4 @@
 #include "main.h"
-#include "bvh.h"
-#include "perlin.h"
-#include "hittable_list.h"
-#include "primitives/sphere.h"
-#include "primitives/quad.h"
-#include "primitives/triangle.h"
-#include "camera.h"
-#include "primitives/triangle_mesh.h"
 #include "scenes/index.h"
 
 // TODO: add ability to output to something other than ppm file
@@ -18,7 +10,7 @@
 // TODO: add beer's law: https://blog.demofox.org/2017/01/09/raytracing-reflection-refraction-fresnel-total-internal-reflection-and-beers-law/
 // TODO: check out further readings: https://github.com/RayTracing/raytracing.github.io/wiki/Further-Readings
 int main(int argc, char * argv[]) {
-  switch (4) {
+  switch (5) {
     case 1: s_part_1_final(); break;
     case 2: s_bouncing_spheres(); break;
     case 3: s_checkered_spheres(); break;
