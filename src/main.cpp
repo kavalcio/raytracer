@@ -25,6 +25,18 @@
 // TODO: add fresnel reflection
 // TODO: add beer's law: https://blog.demofox.org/2017/01/09/raytracing-reflection-refraction-fresnel-total-internal-reflection-and-beers-law/
 // TODO: check out further readings: https://github.com/RayTracing/raytracing.github.io/wiki/Further-Readings
-int main() {
-  perlin_spheres();
+int main(int argc, char * argv[]) {
+  switch (8) {
+    case 1: part_1_final_scene(); break;
+    case 2: bouncing_spheres(); break;
+    case 3: checkered_spheres(); break;
+    case 4: earth(); break;
+    case 5: quads_scene(); break;
+    case 6: teapot_scene(); break;
+    case 7: cornell_box_scene(); break;
+    case 8: perlin_spheres(); break;
+    default:
+      std::cerr << "Invalid scene number" << std::endl;
+      break;
+  }
 }

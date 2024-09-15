@@ -4,9 +4,10 @@
 void perlin_spheres() {
   hittable_list world;
 
-  auto pertext = make_shared<noise_texture>(4);
-  world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(pertext)));
-  world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
+  auto marble_tex = make_shared<marble_texture>(2, 15);
+  auto perlin_tex = make_shared<noise_texture>(4, 4);
+  world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(marble_tex)));
+  world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(perlin_tex)));
 
   world = hittable_list(make_shared<bvh_node>(world));
 

@@ -75,15 +75,31 @@ class image_texture : public texture {
 
 class noise_texture : public texture {
   public:
-    noise_texture(double scale) : scale(scale) {}
+    noise_texture(double scale, int depth) : scale(scale), depth(depth) {}
     
     color value(double u, double v, const point3& p) const override {
-      return color(1, 1, 1) * 0.5 * (1.0 + noise.noise(scale * p));
+      return color(1, 1, 1) * 0.5 * (1 + noise.compounded_noise(scale * p, depth));
     }
   
   private:
     perlin noise;
     double scale;
+    int depth;
+
+};
+
+class marble_texture : public texture {
+  public:
+    marble_texture(double scale, int depth) : scale(scale), depth(depth) {}
+
+    color value(double u, double v, const point3& p) const override {
+      return color(1, 1, 1) * 0.5 * (1 + std::sin(scale * p.z() + 10 * std::fabs(noise.compounded_noise(p, depth))));
+    }
+
+  private:
+    perlin noise;
+    double scale;
+    int depth;
 };
 
 #endif
