@@ -8,7 +8,7 @@ void s_reflection() {
   auto checker_material = make_shared<lambertian>(checker);
 
   auto solid_material = make_shared<lambertian>(color(0.8, 0.6, 0.5));
-  auto transparent_material = make_shared<dielectric>(1.5, 0.1, color(0.85, 0.75, 1.0));
+  auto transparent_material = make_shared<dielectric>(1.5, 0.1, color(0.95, 0.85, 1.0));
   auto light_material = make_shared<diffuse_light>(color(4, 4, 4));
   auto solid_material_2 = make_shared<lambertian>(color(0.2, 0.3, 0.8));
   auto solid_material_3 = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);

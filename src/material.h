@@ -64,25 +64,17 @@ class metal : public material {
 class dielectric : public material {
   public:
     dielectric(double refraction_index) : refraction_index(refraction_index) {}
-    dielectric(double refraction_index, double reflectivity) : refraction_index(refraction_index), reflectivity(reflectivity) {}
-    dielectric(double refraction_index, double reflectivity, const color& albedo) : refraction_index(refraction_index), reflectivity(reflectivity), albedo(albedo) {}
+    dielectric(double refraction_index, double base_reflectance) :
+      refraction_index(refraction_index),
+      base_reflectance(base_reflectance) {}
+    dielectric(double refraction_index, double base_reflectance, const color& albedo) :
+      refraction_index(refraction_index),
+      base_reflectance(base_reflectance),
+      albedo(albedo) {}
 
     bool scatter(const ray& r_in, const hit_record& rec, color& attenuation_color, ray& scattered_ray)
     const override {
       attenuation_color = albedo;
-
-      // Add Fresnel reflectivity, based on Schlick's approximation: https://en.wikipedia.org/wiki/Schlick%27s_approximation
-      auto r0 = std::pow((refraction_index - 1) / (refraction_index + 1), 2);
-      auto cosine = std::abs(dot(rec.normal, normalize(r_in.direction())));
-      auto rn = r0 + (1 - r0) * std::pow((1 - cosine), 5);
-      auto fresnel_reflectivity = (reflectivity + (1.0 - reflectivity) * rn);
-      if (fresnel_reflectivity > random_double()) {
-        vec3 reflected = reflect(r_in.direction(), rec.normal);
-        reflected = unit_vector(reflected);
-        scattered_ray = ray(rec.p, reflected, r_in.time());
-        // attenuation_color = tex->value(rec.u, rec.v, rec.p);
-        return (dot(scattered_ray.direction(), rec.normal) > 0);
-      }
 
       double ri = rec.front_face ? (1.0/refraction_index) : refraction_index;
       vec3 unit_direction = unit_vector(r_in.direction());
@@ -93,7 +85,7 @@ class dielectric : public material {
       bool cannot_refract = ri * sin_theta > 1.0;
       vec3 direction;
 
-      if (cannot_refract || reflectance(cos_theta, ri) > random_double())
+      if (cannot_refract || reflectance(cos_theta, ri, base_reflectance) > random_double())
         direction = reflect(unit_direction, rec.normal);
       else
         direction = refract(unit_direction, rec.normal, ri);
@@ -108,16 +100,17 @@ class dielectric : public material {
     // the refractive index of the enclosing media
     double refraction_index;
 
-    // Ratio of rays reflected instead of refracted
-    double reflectivity;
+    // Base ratio of rays reflected instead of refracted
+    double base_reflectance = 0;
 
     color albedo = color(1.0, 1.0, 1.0);
 
-    static double reflectance(double cosine, double refraction_index) {
+    static double reflectance(double cosine, double refraction_index, double base_reflectance) {
       // Use Schlick's approximation for reflectance.
       auto r0 = (1 - refraction_index) / (1 + refraction_index);
       r0 = r0*r0;
-      return r0 + (1-r0)*std::pow((1 - cosine),5);
+      auto rn = r0 + (1-r0)*std::pow((1 - cosine),5);
+      return (base_reflectance + (1.0 - base_reflectance) * rn);;
     }
 
 };

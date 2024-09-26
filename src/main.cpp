@@ -9,7 +9,6 @@
 // TODO: add bloom
 // TODO: add env map
 // TODO: add specular reflection
-// TODO: add fresnel reflection
 // TODO: add beer's law: https://blog.demofox.org/2017/01/09/raytracing-reflection-refraction-fresnel-total-internal-reflection-and-beers-law/
 // TODO: check out further readings: https://github.com/RayTracing/raytracing.github.io/wiki/Further-Readings
 int main(int argc, char * argv[]) {
