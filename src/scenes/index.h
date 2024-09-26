@@ -6,3 +6,4 @@
 #include "s_teapot.h"
 #include "s_cornell_box.h"
 #include "s_perlin_spheres.h"
+#include "s_reflection.h"

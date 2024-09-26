@@ -12,8 +12,8 @@ class camera {
     int image_width = 100; // Rendered image width in pixel count
     int samples_per_pixel = 10; // Count of random samples for each pixel
     int max_depth = 10; // Maximum number of ray bounces into scene
-    float max_intersection_dist = infinity;
-    float min_intersection_dist = 0.001; // This is a small value to prevent shadow acne
+    double max_intersection_dist = infinity;
+    double min_intersection_dist = 0.001; // This is a small value to prevent shadow acne
     color sky_color = color(0.3, 0.5, 1.0);
     color ground_color = color(1.0, 1.0, 1.0);
 

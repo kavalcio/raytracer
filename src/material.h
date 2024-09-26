@@ -64,10 +64,26 @@ class metal : public material {
 class dielectric : public material {
   public:
     dielectric(double refraction_index) : refraction_index(refraction_index) {}
+    dielectric(double refraction_index, double reflectivity) : refraction_index(refraction_index), reflectivity(reflectivity) {}
+    dielectric(double refraction_index, double reflectivity, const color& albedo) : refraction_index(refraction_index), reflectivity(reflectivity), albedo(albedo) {}
 
     bool scatter(const ray& r_in, const hit_record& rec, color& attenuation_color, ray& scattered_ray)
     const override {
-      attenuation_color = color(1.0, 1.0, 1.0);
+      attenuation_color = albedo;
+
+      // Add Fresnel reflectivity, based on Schlick's approximation: https://en.wikipedia.org/wiki/Schlick%27s_approximation
+      auto r0 = std::pow((refraction_index - 1) / (refraction_index + 1), 2);
+      auto cosine = std::abs(dot(rec.normal, normalize(r_in.direction())));
+      auto rn = r0 + (1 - r0) * std::pow((1 - cosine), 5);
+      auto fresnel_reflectivity = (reflectivity + (1.0 - reflectivity) * rn);
+      if (fresnel_reflectivity > random_double()) {
+        vec3 reflected = reflect(r_in.direction(), rec.normal);
+        reflected = unit_vector(reflected);
+        scattered_ray = ray(rec.p, reflected, r_in.time());
+        // attenuation_color = tex->value(rec.u, rec.v, rec.p);
+        return (dot(scattered_ray.direction(), rec.normal) > 0);
+      }
+
       double ri = rec.front_face ? (1.0/refraction_index) : refraction_index;
       vec3 unit_direction = unit_vector(r_in.direction());
 
@@ -92,6 +108,11 @@ class dielectric : public material {
     // the refractive index of the enclosing media
     double refraction_index;
 
+    // Ratio of rays reflected instead of refracted
+    double reflectivity;
+
+    color albedo = color(1.0, 1.0, 1.0);
+
     static double reflectance(double cosine, double refraction_index) {
       // Use Schlick's approximation for reflectance.
       auto r0 = (1 - refraction_index) / (1 + refraction_index);
@@ -103,7 +124,7 @@ class dielectric : public material {
 
 class diffuse_light : public material {
   public:
-    diffuse_light(shared_ptr<texture> text) : tex(tex) {}
+    diffuse_light(shared_ptr<texture> tex) : tex(tex) {}
     diffuse_light(const color& emit) : tex(make_shared<solid_color>(emit)) {}
 
     color emitted(double u, double v, const point3& p) const override {
