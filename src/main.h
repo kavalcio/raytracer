@@ -52,5 +52,6 @@ inline int random_int(int min, int max) {
 #include "primitives/quad.h"
 #include "primitives/triangle.h"
 #include "primitives/triangle_mesh.h"
+#include "primitives/constant_medium.h"
 
 #endif
